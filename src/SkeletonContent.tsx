@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Animated, { interpolateNode } from 'react-native-reanimated';
+import Animated, { interpolate } from 'react-native-reanimated';
 import {
   interpolateColor,
   loop,
@@ -226,7 +226,7 @@ const SkeletonContent: React.FunctionComponent<ISkeletonContentProps> = ({
       animationDirection === 'horizontalLeft' ||
       animationDirection === 'horizontalRight'
     ) {
-      const interpolatedPosition = interpolateNode(animationValue, {
+      const interpolatedPosition = interpolate(animationValue, {
         inputRange: [0, 1],
         outputRange: getPositionRange(boneLayout)
       });
@@ -294,14 +294,19 @@ const SkeletonContent: React.FunctionComponent<ISkeletonContentProps> = ({
           yOutputRange.reverse();
         }
       }
-      let translateX = interpolateNode(animationValue, {
-        inputRange: [0, 1],
-        outputRange: xOutputRange
-      });
-      let translateY = interpolateNode(animationValue, {
-        inputRange: [0, 1],
-        outputRange: yOutputRange
-      });
+
+      let translateX = interpolate( parseInt(JSON.stringify(animationValue)), [0, 1], xOutputRange, {  });
+      let translateY = interpolate( parseInt(JSON.stringify(animationValue)), [0, 1], yOutputRange, {  });
+
+      
+      // let translateX = interpolate(animationValue, {
+      //   inputRange: [0, 1],
+      //   outputRange: xOutputRange
+      // });
+      // let translateY = interpolate(animationValue, {
+      //   inputRange: [0, 1],
+      //   outputRange: yOutputRange
+      // });
       // swapping the translates if width is the main dim
       if (mainDimension === boneWidth)
         [translateX, translateY] = [translateY, translateX];
